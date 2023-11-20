@@ -1,0 +1,244 @@
+﻿
+@inherits System.Web.Mvc.WebViewPage
+@using System.Web.Optimization
+
+@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<div id="formCadastroCliente">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
+                <div class="au-card-title">
+
+                    <div class="bg-overlay bg-overlay--blue"></div>
+                    <div id="containerImg" class=" au-btn-plus">
+                        <span id="iconFoto"> <i class="fa fa-user-plus"></i></span>
+                        <div class="avatar">
+                            <i class="fa fa-image position-relative">
+                                <input title="Logotipo" type="file" id="Logotipo" onchange="readURL(this)" accept="image/png" style="width: 589px; color: #0000; " value="">
+                            </i>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="au-inbox-wrap js-inbox-wrap">
+                    <div class="au-message js-list-load">
+                        <div class="au-message__noti">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    Cadastro &gt; Cliente
+
+                    <h3>
+                        <a style="float:right; margin-left:10px;" class="btn btn-danger btn-sm" href="/Cliente/Index">
+                            <i class="fa fa-ban"></i> Cancelar
+                        </a>
+                        <button style="float:right; margin-left:10px;" class="btn btn-primary btn-sm" onclick="Listar()">
+                            <i class="	fa fa-filter"></i> Listar
+                        </button>
+                        <button style="float:right; margin-left:10px;" class="btn btn-success btn-sm" onclick="salvar()">
+                            <i class="fa fa-check"></i> Salvar
+                        </button>
+
+                    </h3>
+                </div>
+                <div class="card-body card-block">
+                    <div action="" method="post" class="form-horizontal">
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Nome</label>
+                                <input maxlength="100" style="width:100%;" type="text" class="form-control" name="nome" id="nome" oninput="aplicarMascaraLetras(this)">
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>E-mail</label>
+                                <input maxlength="100" style="width:100%;" type="text" class="form-control" name="email" id="email">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    Cadastro &gt; Cliente &gt; Logradouro
+                    <h3>
+                        <button style="float:right; margin-left:10px;" class="btn btn-success btn-sm" onclick="adicionarEndereco()">
+                            <i class="fa fa-plus"></i> Adicionar
+                        </button>
+                    </h3>
+                </div>
+                <div class="card-body card-block">
+                    <div action="" method="post" class="form-horizontal">
+                        <div class="row">
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>CEP</label>
+                                <input maxlength="8" style="width:100%;" type="text" class="form-control" name="cep" id="cep" oninput="aplicarMascaraNumerica(this)">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Endereço</label>
+                                <input maxlength="100" style="width:100%;" type="text" class="form-control" name="logradura" id="logradura" oninput="aplicarMascaraLetras(this)">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Bairro</label>
+                                <input maxlength="100" style="width:100%;" type="text" class="form-control" name="bairro" id="bairro" oninput="aplicarMascaraLetras(this)">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Numero</label>
+                                <input maxlength="5" style="width:100%;" type="text" class="form-control" name="Numero" id="Numero" oninput="aplicarMascaraNumerica(this)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                                <label>Complemento</label>
+                                <input maxlength="100" style="width:100%;" type="text" class="form-control" name="Complemento" id="Complemento" oninput="aplicarMascaraLetras(this)">
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>UF</label>
+                                <select class="form-control" name="uf" id="uf" onchange="atualizarCidades()">
+                                    <option value="-1">Selecione</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-3 col-sm-6 col-xs-12">
+                                <label>Cidade</label>
+                                <select class="form-control" name="cidade" id="cidade">
+                                    <option value="-1">Selecione</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12" style="
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 50px;
+" id="formTable">
+    <table class="table table-borderless table-striped table-earning">
+        <thead>
+            <tr>
+
+                <th>CEP</th>
+                <th>Endereço</th>
+                <th>Bairro</th>
+                <th>Numero</th>
+                <th>Complemento</th>
+                <th>UF</th>
+                <th>Cidade</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+        <tbody id="addressList">
+        </tbody>
+    </table>
+</div>
+<script>
+    function atualizarCidades() {
+        var estadoSelect = document.getElementById("uf");
+        var cidadeSelect = document.getElementById("cidade");
+        var estadoSelecionado = estadoSelect.value;
+
+        cidadeSelect.innerHTML = "";
+
+        fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${estadoSelecionado}/municipios`)
+            .then(response => response.json())
+            .then(cities => {
+                cities.forEach(function (city) {
+                    var option = document.createElement("option");
+                    option.value = city.nome;
+                    option.textContent = city.nome;
+                    cidadeSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Erro ao buscar cidades:", error);
+            });
+    }
+
+    fetch("https://servicodados.ibge.gov.br/api/v1/localidades/estados")
+        .then(response => response.json())
+        .then(states => {
+            var estadoSelect = document.getElementById("uf");
+            states.forEach(function (state) {
+                var option = document.createElement("option");
+                option.value = state.sigla;
+                option.textContent = state.nome;
+                estadoSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao buscar estados:", error);
+        });
+</script>
+
+<script src="~/Scripts/Cliente/Index.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        //Quando o campo cep perde o foco.
+        $("#cep").blur(function () {
+
+            //Nova variável "cep" somente com dígitos.
+            var cep = $(this).val().replace(/\D/g, '');
+
+            //Verifica se campo cep possui valor informado.
+            if (cep != "") {
+
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
+
+                //Valida o formato do CEP.
+                if (validacep.test(cep)) {
+
+                    //Consulta o webservice viacep.com.br/
+                    $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+                        if (!("erro" in dados)) {
+                            //Atualiza os campos com os valores da consulta.
+                            $("#logradura").val(dados.logradouro);
+                            $("#bairro").val(dados.bairro);
+                            $("#Complemento").val(dados.complemento);
+                            $("#uf").val(dados.uf);
+                            atualizarCidades();
+                            setTimeout(function () {
+                                $("#cidade").val(dados.localidade);
+                            }, 1000);
+
+                        } //end if.
+                        else {
+                            //CEP pesquisado não foi encontrado.
+                            limpa_formulario_cep();
+                            alert("CEP não encontrado.");
+                        }
+                    });
+                } //end if.
+                else {
+                    //cep é inválido.
+                    limpa_formulario_cep();
+                    alert("Formato de CEP inválido.");
+                }
+            } //end if.
+            else {
+                //cep sem valor, limpa formulário.
+                limpa_formulario_cep();
+            }
+        });
+
+    });
+</script>
+
